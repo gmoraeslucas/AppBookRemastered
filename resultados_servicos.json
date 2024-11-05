@@ -1,0 +1,337 @@
+{
+    "Autorizações": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Contas Médicas": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Integrações-Internas": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Integrações-Portais": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Relatórios": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Integrações-TISS": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Site Administrativo": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Serviços WCF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Portal do Corretor": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API Corretora Digital": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Administrativo – Chamadas aos serviços WCF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Portal do Corretor – Chamadas aos serviços WCF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Serviços – Chamadas a serviços externos": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API Corretora Digital – Chamadas aos serviços WCF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Previdência PF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Financeiro PF": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Previdência": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "(ANS) Saúde": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "(ANS) Odonto": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "DEO - Seguro Responsabilidade Civil": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Empresarial": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Empresarial - Legado": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Residencial": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Residencial - Legado": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "RCPSI - Seguro Responsabilidade Civil Individual": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "RCPSI - Seguro Responsabilidade Civil Individual - Legado": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "RCPSO - Seguro Responsabilidade Civil Coletivo - Legado": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API SAUDE": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API ODONTO": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API SIEBEL": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API JOKER": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API VIDA": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API PREV": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API RE": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API BASE21": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "API GEM": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Cotação": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Área Cliente": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Autenticação": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Layouts": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Proposta": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Transmissão": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Autenticação em Sistemas (SSO-PRD)": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Token URL do Frame": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Token URL Sinistro online Vida": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Criação/Atualização de Estipulante": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Criação/Atualização de corretor": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Gerar PDF Dirf": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Gerar Token Core": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Token URL do Sinistro Online Patrimonial": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Dados Segurados Odonto": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Dados Segurados Previdencia": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Dados Segurados Vida": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Dados Segurados RE": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Dados Segurados Saúde": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Protocolo ANS": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "EMPRE": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "GERAL": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "RCP": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "RESID": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "POST /produto/apolice": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Portal Empresa": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Portal Segurado": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Portal Dentista": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "Top Dental": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "movimentacao-cadastral": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    },
+    "token-corporativo": {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0
+    }
+}
