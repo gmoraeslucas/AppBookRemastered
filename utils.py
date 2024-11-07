@@ -1,50 +1,51 @@
 import json
 import requests
 from config import API_KEY, APP_KEY, BASE_URL
-from datetime import datetime, timedelta
-import time
+from datetime import datetime, timedelta, timezone
+import holidays
 
-# Função para fazer a consulta à API do Datadog
-def consultar_datadog(query, start_time, end_time):
-    # Converter datas para timestamp Unix em segundos
-    start_time_unix = int(time.mktime(start_time.timetuple()))
-    end_time_unix = int(time.mktime(end_time.timetuple()))
+def to_timestamp(year, month, day, hour=0, minute=0, tz_offset=-3):
+    dt = datetime(year, month, day, hour, minute) - timedelta(hours=tz_offset)
+    return int(dt.replace(tzinfo=timezone.utc).timestamp())
 
-    params = {
-        'query': query,
-        'from': start_time_unix,
-        'to': end_time_unix
-    }
+def sum_points(series):
+    if series and 'pointlist' in series[0]:
+        return sum(point[1] for point in series[0]['pointlist'])
+    else:
+        return 0
+
+def run_query(query, from_time, to_time):
     headers = {
         'DD-API-KEY': API_KEY,
         'DD-APPLICATION-KEY': APP_KEY
     }
-
-    try:
-        response = requests.get(BASE_URL, headers=headers, params=params, verify= False)
-        if response.status_code == 200:
-            print(f"Query executada com sucesso")
-            return response.json()
-        else:
-            print(f"Erro na execução da query")
-            return None
-    except Exception as e:
-        print(f"Erro inesperado na execução da query | Erro: {e}")
+    params = {
+        'query': query,
+        'from': from_time,
+        'to': to_time
+    }
+    response = requests.get(BASE_URL, headers=headers, params=params)
+    if response.status_code == 200:
+        print(f"Query executada com sucesso!")
+        return response.json()
+    else:
+        print(f'Erro ao executar a consulta: {response.status_code}')
+        print(response.text)
         return None
 
-# Função para ler queries de um arquivo
 def ler_queries(arquivo):
-    with open(arquivo, 'r', encoding='utf-8') as f:  # Adicionado encoding='utf-8'
+    with open(arquivo, 'r', encoding='utf-8') as f:
         queries = json.load(f)
     return queries
 
-# Função para gerar intervalos de datas das 07 am até as 07 pm
 def gerar_intervalo_dias(data_inicio, data_fim):
     datas = []
+    feriados_brasil = holidays.Brazil() 
     data_atual = data_inicio
     while data_atual <= data_fim:
-        start_time = datetime.combine(data_atual, datetime.min.time()) + timedelta(hours=7)
-        end_time = datetime.combine(data_atual, datetime.min.time()) + timedelta(hours=19)
-        datas.append((start_time, end_time))
+        if data_atual.weekday() < 5 and data_atual not in feriados_brasil:
+            start_time = datetime.combine(data_atual, datetime.min.time()) + timedelta(hours=7)
+            end_time = datetime.combine(data_atual, datetime.min.time()) + timedelta(hours=19)
+            datas.append((start_time, end_time))
         data_atual += timedelta(days=1)
     return datas
