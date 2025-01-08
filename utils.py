@@ -50,7 +50,6 @@ def run_query(query, from_time, to_time):
     }
     response = requests.get(BASE_URL, headers=headers, params=params)
     if response.status_code == 200:
-        print("Query executada com sucesso!")
         return response.json()
     else:
         print(f"Erro ao executar a consulta: {response.status_code}")
