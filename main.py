@@ -6,8 +6,8 @@ import json
 def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos):
     resultados_servicos = {service['name']: {"Requisições": 0, "Degradação": 0, "Indisponibilidade": 0, "Views": 0, "Errors": 0}
                            for service in queries_req}
-
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    
+    with ThreadPoolExecutor(max_workers = 10) as executor_query, ThreadPoolExecutor(max_workers = 5) as executor_rum:
         futures = []
 
         # Requisições e Views
@@ -25,9 +25,9 @@ def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
                 for query in service['queries']:
                     query_type = "Views" if "@type:view" in query else "Requisições"
                     if "@type:view" in query:
-                        futures.append((executor.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
+                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
                     else:
-                        futures.append((executor.submit(run_query, query, from_time, to_time), service['name'], query_type))
+                        futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], query_type))
 
         # Degradação
         for service in queries_deg:
@@ -37,7 +37,7 @@ def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
                 from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
                 to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
                 for query in service['queries']:
-                    futures.append((executor.submit(run_query, query, from_time, to_time), service['name'], 'Degradação'))
+                    futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], 'Degradação'))
 
         # Indisponibilidade e Errors
         for service in queries_ind:
@@ -54,9 +54,9 @@ def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
                 for query in service['queries']:
                     query_type = "Errors" if "@type:error" in query else "Indisponibilidade"
                     if "@type:error" in query:
-                        futures.append((executor.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
+                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
                     else:
-                        futures.append((executor.submit(run_query, query, from_time, to_time), service['name'], query_type))
+                        futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], query_type))
 
         # Processar resultados
         for future, service_name, query_type in futures:
