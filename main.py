@@ -7,7 +7,7 @@ def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
     resultados_servicos = {service['name']: {"Requisições": 0, "Degradação": 0, "Indisponibilidade": 0, "Views": 0, "Errors": 0}
                            for service in queries_req}
     
-    with ThreadPoolExecutor(max_workers = 10) as executor_query, ThreadPoolExecutor(max_workers = 5) as executor_rum:
+    with ThreadPoolExecutor(max_workers = 10) as executor_query, ThreadPoolExecutor(max_workers = 3) as executor_rum:
         futures = []
 
         # Requisições e Views
