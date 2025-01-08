@@ -1,52 +1,52 @@
 [
     {"name": "Autorizações", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/ws/integracaoagendamentoonline OR service:topsaude_v12/ws/wsintegracaoinpartopme OR service:topsaude_v12/ws/wsptuchat) AND NOT (resource_name:post_/comunicacaochatv1.svc)}.as_count()",
-        "sum:trace.aspnet_core.request.hits{env:producao,application:top-saude,service:topdown.ptu.sispac.api,!resource_name:get_/apis/ptusispac.api/api/pacotes,http.status_code:5*}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:topdown.ptu.sispac.api-http-client OR service:topsaude_v12/ws/integracaoagendamentoonline-http-client OR service:topsaude_v12/ws/wsintegracaoinpartopme-http-client OR service:topsaude_v12/ws/wsptuchat-http-client)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/ws/integracaoagendamentoonline OR service:topsaude_v12/ws/wsintegracaoinpartopme OR service:topsaude_v12/ws/wsptuchat) AND NOT (resource_name:post_/comunicacaochatv1.svc)}.as_count()",
+        "sum:trace.aspnet_core.request.hits{env:prd,application:top-saude,service:topdown.ptu.sispac.api,!resource_name:get_/apis/ptusispac.api/api/pacotes,http.status_code:5*}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:topdown.ptu.sispac.api-http-client OR service:topsaude_v12/ws/integracaoagendamentoonline-http-client OR service:topsaude_v12/ws/wsintegracaoinpartopme-http-client OR service:topsaude_v12/ws/wsptuchat-http-client)}.as_count()"
     ]},
     {"name": "Contas Médicas", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:apicontasmedicas OR service:contasmedicas OR service:topsaudev12/apis/topdownanscalculocopart OR service:topsaude_v12/portaltiss OR service:topsaude_v12/rsus OR service:topsaudev12/ws/wsimagemreembolso OR service:topsaudev12/ws/wsintegracaopreviareembolso OR service:topsaudev12/ws/wsintegracaoreembolso OR service:topsaudev12/ws/wsvalorreembolso)}.as_count()",
-        "sum:trace.http.request.hits{env:producao,application:top-saude,service:topsaude_v12/portaltiss-http-client,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:apicontasmedicas OR service:contasmedicas OR service:topsaudev12/apis/topdownanscalculocopart OR service:topsaude_v12/portaltiss OR service:topsaude_v12/rsus OR service:topsaudev12/ws/wsimagemreembolso OR service:topsaudev12/ws/wsintegracaopreviareembolso OR service:topsaudev12/ws/wsintegracaoreembolso OR service:topsaudev12/ws/wsvalorreembolso)}.as_count()",
+        "sum:trace.http.request.hits{env:prd,application:top-saude,service:topsaude_v12/portaltiss-http-client,http.status_code:5*}.as_count()"
     ]},
     {"name": "Integrações-Internas", "queries": [
-        "sum:trace.aspnet_core.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:gerenciadormovimentacoesbeneficiarioapi OR service:topdown.autorizacao.medica.repository.service.api OR service:topdown.core.service.endereco.service.api OR service:topdown.movimentacao.cadastral.repository.service.api)}.as_count()",
-        "sum:trace.aspnet.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/tsnmvc OR service:topsaude_v12/ws/topdown.protocolo.ws.siebel OR service:topsaude_v12/ws/tiss/v* OR service:apialcadapagamento OR service:pwaalcadapagamento OR service:topsaude_v12/enviosms)}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:gerenciadormovimentacoesbeneficiarioapi-http-client OR service:topsaude_v12/ws/topdown.protocolo.ws.siebel-http-client OR service:topsaude_v12/tsnmvc-http-client OR service:topsaude_v12/ws/tiss/v* OR service:topsaude_v12/enviosms-http-client)}.as_count()"
+        "sum:trace.aspnet_core.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:gerenciadormovimentacoesbeneficiarioapi OR service:topdown.autorizacao.medica.repository.service.api OR service:topdown.core.service.endereco.service.api OR service:topdown.movimentacao.cadastral.repository.service.api)}.as_count()",
+        "sum:trace.aspnet.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/tsnmvc OR service:topsaude_v12/ws/topdown.protocolo.ws.siebel OR service:topsaude_v12/ws/tiss/v* OR service:apialcadapagamento OR service:pwaalcadapagamento OR service:topsaude_v12/enviosms)}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:gerenciadormovimentacoesbeneficiarioapi-http-client OR service:topsaude_v12/ws/topdown.protocolo.ws.siebel-http-client OR service:topsaude_v12/tsnmvc-http-client OR service:topsaude_v12/ws/tiss/v* OR service:topsaude_v12/enviosms-http-client)}.as_count()"
     ]},
     {"name": "Integrações-Portais", "queries": [
-        "sum:trace.aspnet_core.request.hits{env:producao,application:top-saude,service:topdown.pagamento.service.api,http.status_code:5*}.as_count()",
-        "sum:trace.aspnet.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/portal_servicos OR service:topsaudev12/ws/beneficiarioinfofinanceiroservice OR service:topsaude_v12/ws/ws.seguros.portalseguros.services OR service:topsaude_v12/ws/ws.seguros.service OR service:topsaude_v12/ws/ws.segurosunimed.service OR service:topsaudev12/ws/wsappunificadoseguros OR service:topsaude_v12/ws/wsgeocode)}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND application:top-saude AND http.status_code:5* AND (service:topdown.pagamento.service.api-http-client OR service:topsaude_v12/ws/ws.seguros.portalseguros.services-http-client OR service:topsaude_v12/ws/wsgeocode-http-client )}.as_count()"
+        "sum:trace.aspnet_core.request.hits{env:prd,application:top-saude,service:topdown.pagamento.service.api,http.status_code:5*}.as_count()",
+        "sum:trace.aspnet.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:topsaude_v12/portal_servicos OR service:topsaudev12/ws/beneficiarioinfofinanceiroservice OR service:topsaude_v12/ws/ws.seguros.portalseguros.services OR service:topsaude_v12/ws/ws.seguros.service OR service:topsaude_v12/ws/ws.segurosunimed.service OR service:topsaudev12/ws/wsappunificadoseguros OR service:topsaude_v12/ws/wsgeocode)}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND application:top-saude AND http.status_code:5* AND (service:topdown.pagamento.service.api-http-client OR service:topsaude_v12/ws/ws.seguros.portalseguros.services-http-client OR service:topsaude_v12/ws/wsgeocode-http-client )}.as_count()"
     ]},
     {"name": "Relatórios", "queries": [
-        "sum:trace.servlet.request.hits{env:producao,application:top-saude,service:topsaude-gen-relatorio-ws,http.status_code:5*}.as_count()"
+        "sum:trace.servlet.request.hits{env:prd,application:top-saude,service:topsaude-gen-relatorio-ws,http.status_code:5*}.as_count()"
     ]},
     {"name": "Integrações-TISS", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao,application:top-saude,http.status_code:5*,service:topsaude_v12/ws/tiss/*}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd,application:top-saude,http.status_code:5*,service:topsaude_v12/ws/tiss/*}.as_count()"
     ]},
     {"name": "Site Administrativo", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao,service:eprevprd,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd,service:eprevprd,http.status_code:5*}.as_count()"
     ]},
     {"name": "Serviços WCF", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao,service:eprevprd_services,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd,service:eprevprd_services,http.status_code:5*}.as_count()"
     ]},
     {"name": "Portal do Corretor", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao,service:eprevprd_portal,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd,service:eprevprd_portal,http.status_code:5*}.as_count()"
     ]},
     {"name": "API Corretora Digital", "queries": [
-        "sum:trace.aspnet_core.request.hits{env:producao,service:unimed.eprev.api,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet_core.request.hits{env:prd,service:unimed.eprev.api,http.status_code:5*}.as_count()"
     ]},
     {"name": "Administrativo – Chamadas aos serviços WCF", "queries": [
-        "sum:trace.http.request.hits{env:producao,http.status_code:5*,service:eprevprd-http-client}.as_count()"
+        "sum:trace.http.request.hits{env:prd,http.status_code:5*,service:eprevprd-http-client}.as_count()"
     ]},
     {"name": "Portal do Corretor – Chamadas aos serviços WCF", "queries": [
-        "sum:trace.http.request.hits{env:producao,http.status_code:5*,service:eprevprd_portal-http-client}.as_count()"
+        "sum:trace.http.request.hits{env:prd,http.status_code:5*,service:eprevprd_portal-http-client}.as_count()"
     ]},
     {"name": "Serviços – Chamadas a serviços externos", "queries": [
-        "sum:trace.http.request.hits{env:producao,http.status_code:5*,service:eprevprd_services-http-client}.as_count()"
+        "sum:trace.http.request.hits{env:prd,http.status_code:5*,service:eprevprd_services-http-client}.as_count()"
     ]},
     {"name": "API Corretora Digital – Chamadas aos serviços WCF", "queries": [
-        "sum:trace.http.request.hits{env:producao,http.status_code:5*,service:unimed.eprev.api-http-client}.as_count()"
+        "sum:trace.http.request.hits{env:prd,http.status_code:5*,service:unimed.eprev.api-http-client}.as_count()"
     ]},
     {"name": "Previdência PF", "queries": [
         "sum:trace.servlet.request.hits{env:prd,http.status_code:5*,service:produto-previdencia-pf-java}.as_count()"
@@ -115,25 +115,25 @@
         "sum:trace.servlet.request.hits{http.status_code:5*,service:uniservices-gem}.as_count()"
     ]},
     {"name": "Cotação", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/cotacao* OR resource_name:get_/api/produto/* OR resource_name:get_/api/endereco/* OR resource_name:post_/api/corretor/* OR resource_name:get_/cotacao/*)}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND http.status_code:5* AND service:calculemais-http-client AND (resource_name:post_brms-gateway-vida-b2c-cotacao-hml.lb.digital-segurosunimed.com/* OR resource_name:get_uniservices.digital-segurosunimed.com/uniservices-base21/api/* OR resource_name:get_api-analisesespeciais.segurosunimed.com.br/*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/cotacao* OR resource_name:get_/api/produto/* OR resource_name:get_/api/endereco/* OR resource_name:post_/api/corretor/* OR resource_name:get_/cotacao/*)}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND http.status_code:5* AND service:calculemais-http-client AND (resource_name:post_brms-gateway-vida-b2c-cotacao-hml.lb.digital-segurosunimed.com/* OR resource_name:get_uniservices.digital-segurosunimed.com/uniservices-base21/api/* OR resource_name:get_api-analisesespeciais.segurosunimed.com.br/*)}.as_count()"
     ]},
     {"name": "Área Cliente", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/cotacao* OR resource_name:get_/api/produto/* OR resource_name:get_/api/endereco/* OR resource_name:post_/api/corretor/* OR resource_name:get_/cotacao/*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/cotacao* OR resource_name:get_/api/produto/* OR resource_name:get_/api/endereco/* OR resource_name:post_/api/corretor/* OR resource_name:get_/cotacao/*)}.as_count()"
     ]},
     {"name": "Autenticação", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/authentication/* OR resource_name:get_/api/sso/* OR resource_name:get_/singlesignon/* OR resource_name:get_/logout* OR resource_name:get_/login* OR resource_name:get_/api/authentication/*)}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND http.status_code:5* AND service:calculemais-http-client AND (resource_name:get_homologacao-rh-sso-external.segurosunimed.com.br/auth/realms/unimed-externos/*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais AND (resource_name:post_/api/authentication/* OR resource_name:get_/api/sso/* OR resource_name:get_/singlesignon/* OR resource_name:get_/logout* OR resource_name:get_/login* OR resource_name:get_/api/authentication/*)}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND http.status_code:5* AND service:calculemais-http-client AND (resource_name:get_homologacao-rh-sso-external.segurosunimed.com.br/auth/realms/unimed-externos/*)}.as_count()"
     ]},
     {"name": "Layouts", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais* AND (resource_name:get_/api/footer* OR resource_name:get_/content/* OR resource_name:get_/scripts/* OR resource_name:get_/api/usuario/*)}.as_count()",
-        "sum:trace.http.request.hits{env:producao AND http.status_code:5* AND service:calculemais* AND (resource_name:get_cms.segurosunimed.com.br/wp-json/*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais* AND (resource_name:get_/api/footer* OR resource_name:get_/content/* OR resource_name:get_/scripts/* OR resource_name:get_/api/usuario/*)}.as_count()",
+        "sum:trace.http.request.hits{env:prd AND http.status_code:5* AND service:calculemais* AND (resource_name:get_cms.segurosunimed.com.br/wp-json/*)}.as_count()"
     ]},
     {"name": "Proposta", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais* AND (resource_name:get_/api/papelaria* OR resource_name:post_/api/cotacao/obtemproposta/* OR resource_name:post_/api/corretor/verificaassinaturacorretor*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais* AND (resource_name:get_/api/papelaria* OR resource_name:post_/api/cotacao/obtemproposta/* OR resource_name:post_/api/corretor/verificaassinaturacorretor*)}.as_count()"
     ]},
     {"name": "Transmissão", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND service:calculemais* AND (resource_name:put_/integration/proposta/*)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND service:calculemais* AND (resource_name:put_/integration/proposta/*)}.as_count()"
     ]},
     {"name": "Autenticação em Sistemas (SSO-PRD)", "queries": [
         "sum:trace.servlet.request.hits{env:prd,service:sso-prd,http.status_code:5*}.as_count()"
@@ -193,20 +193,20 @@
         "sum:trace.servlet.request.hits{http.status_code:5*,env:prd,service:produto-re-pf-java,resource_name:post_/produto/apolice}.as_count()"
     ]},
     {"name": "Portal Empresa", "queries": [
-        "sum:trace.aspnet_core.request.hits{env:producao AND http.status_code:5* AND (service:topdown.cripto.webapi OR service:gerenciadormovimentacoesbeneficiarioapi OR service:topdown.movimentacao.cadastral.repository.service.api)}.as_count()",
-        "sum:trace.aspnet.request.hits{env:producao,service:topsaude/odo_portal,http.status_code:5*}.as_count()"
+        "sum:trace.aspnet_core.request.hits{env:prd AND http.status_code:5* AND (service:topdown.cripto.webapi OR service:gerenciadormovimentacoesbeneficiarioapi OR service:topdown.movimentacao.cadastral.repository.service.api)}.as_count()",
+        "sum:trace.aspnet.request.hits{env:prd,service:topsaude/odo_portal,http.status_code:5*}.as_count()"
     ]},
     {"name": "Portal Segurado", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND (service:topsaude/ws/portalunimedodonto OR service:topsaude/ws/wsapoliceinfofinanceiroservice OR service:topsaude/ws/wsprotocoloreembolsoOT OR service:topsaude/ws/propostaservice OR service:topsaude/ws/wscobrancaservice OR service:topsaude/ws/wsunimedodontoservice)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND (service:topsaude/ws/portalunimedodonto OR service:topsaude/ws/wsapoliceinfofinanceiroservice OR service:topsaude/ws/wsprotocoloreembolsoOT OR service:topsaude/ws/propostaservice OR service:topsaude/ws/wscobrancaservice OR service:topsaude/ws/wsunimedodontoservice)}.as_count()"
     ]},
     {"name": "Portal Dentista", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND (service:topsaude/ws/servicosunimedseguros OR service:topsaude/ws/wsgeocode OR service:topsaude/ws/wsbeneficiarioportal OR service:topsaude/ws/servicesmsinfobip OR service:topsaude/ws/servicosunimedsegurosodo)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND (service:topsaude/ws/servicosunimedseguros OR service:topsaude/ws/wsgeocode OR service:topsaude/ws/wsbeneficiarioportal OR service:topsaude/ws/servicesmsinfobip OR service:topsaude/ws/servicosunimedsegurosodo)}.as_count()"
     ]},
     {"name": "Top Dental", "queries": [
-        "sum:trace.aspnet.request.hits{env:producao AND http.status_code:5* AND (service:topsaude/ws/wsintegracaodocusign OR service:topsaude/tsnmvc)}.as_count()"
+        "sum:trace.aspnet.request.hits{env:prd AND http.status_code:5* AND (service:topsaude/ws/wsintegracaodocusign OR service:topsaude/tsnmvc)}.as_count()"
     ]},
     {"name": "movimentacao-cadastral", "queries": [
-        "sum:trace.servlet.request.hits{env:producao,http.status_code:5*,service:movimentacao-cadastral-odonto-java}.as_count()"
+        "sum:trace.servlet.request.hits{env:prd,http.status_code:5*,service:movimentacao-cadastral-odonto-java}.as_count()"
     ]},
     {"name": "token-corporativo", "queries": [
         "sum:trace.servlet.request.hits{env:prd,http.status_code:5*,service:tokencorporativo-java}.as_count()"
@@ -237,5 +237,11 @@
     ]},
     {"name": "Consulta de sinistro por endosso", "queries": [
         "@type:resource @application.name:\"Super-app\" @resource.status_code:5*"
+    ]},
+    {"name": "RUM Portal PF", "queries": [
+        "@type:error @application.name:\"Portal PF\""
+    ]},
+    {"name": "RUM Super APP", "queries": [
+        "@type:error @application.name:\"Super-app\""
     ]}
 ]

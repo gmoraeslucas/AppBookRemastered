@@ -1,5 +1,5 @@
 /.env
-/queries
 /__pycache__
 /desktop.ini
 /resultados_servicos.json
+/queries/desktop.ini
