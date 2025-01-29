@@ -9,90 +9,144 @@ def calcular_sla(eventos):
     Calcula o SLA com base nos eventos retornados pelo Zabbix.
     Considera que eventos com `value=1` representam indisponibilidade.
     """
-    total_periodo = len(eventos)  # Total de registros de eventos no período
+    total_periodo = len(eventos)
     indisponibilidades = sum(1 for evento in eventos if evento['value'] == 1)
 
     if total_periodo > 0:
         sla = ((total_periodo - indisponibilidades) / total_periodo) * 100
     else:
-        sla = 100.0  # Sem eventos significa 100% de SLA
+        sla = 100.0
     return sla
 
 def coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos):
-    resultados_servicos = {service['name']: {"Requisições": 0, "Degradação": 0, "Indisponibilidade": 0, "Views": 0, "Errors": 0}
-                           for service in queries_req}
-    
+    """
+    Agora agrupamos os dados por 'system' e depois por 'name'. Ou seja:
+    resultados_servicos[system][service_name] = {
+        "Requisições": 0,
+        "Degradação": 0,
+        "Indisponibilidade": 0,
+        "Views": 0,
+        "Errors": 0
+    }
+    """
+    resultados_servicos = {}
+
+    def init_resultados_servicos(system, service_name):
+        if system not in resultados_servicos:
+            resultados_servicos[system] = {}
+        if service_name not in resultados_servicos[system]:
+            resultados_servicos[system][service_name] = {
+                "Requisições": 0,
+                "Degradação": 0,
+                "Indisponibilidade": 0,
+                "Views": 0,
+                "Errors": 0
+            }
+
+    # 1) Pré-cria chaves para Requisições e Views
+    for service in queries_req:
+        system = service.get('system', 'Desconhecido')
+        service_name = service['name']
+        init_resultados_servicos(system, service_name)
+
+    # 2) Pré-cria chaves para Degradação
+    for service in queries_deg:
+        system = service.get('system', 'Desconhecido')
+        service_name = service['name']
+        init_resultados_servicos(system, service_name)
+
+    # 3) Pré-cria chaves para Indisponibilidade e Errors
+    for service in queries_ind:
+        system = service.get('system', 'Desconhecido')
+        service_name = service['name']
+        init_resultados_servicos(system, service_name)
+
     with ThreadPoolExecutor(max_workers=10) as executor_query, ThreadPoolExecutor(max_workers=3) as executor_rum:
         futures = []
 
         # Requisições e Views (Datadog)
         for service in queries_req:
+            system = service.get('system', 'Desconhecido')
+            service_name = service['name']
             if not service['queries']:
                 continue
-            for start_time, end_time in intervalos:
-                if any("@type:view" in query for query in service['queries']):
-                    from_time = to_iso8601(start_time.year, start_time.month, start_time.day, 7)
-                    to_time = to_iso8601(end_time.year, end_time.month, end_time.day, 19)
-                else:
-                    from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
-                    to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
 
+            for start_time, end_time in intervalos:
                 for query in service['queries']:
-                    query_type = "Views" if "@type:view" in query else "Requisições"
                     if "@type:view" in query:
-                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
+                        # RUM (iso8601)
+                        from_time = to_iso8601(start_time.year, start_time.month, start_time.day, 7)
+                        to_time = to_iso8601(end_time.year, end_time.month, end_time.day, 19)
+                        query_type = "Views"
+                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time),
+                                        system, service_name, query_type))
                     else:
-                        futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], query_type))
+                        from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
+                        to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
+                        query_type = "Requisições"
+                        futures.append((executor_query.submit(run_query, query, from_time, to_time),
+                                        system, service_name, query_type))
 
         # Degradação (Datadog)
         for service in queries_deg:
+            system = service.get('system', 'Desconhecido')
+            service_name = service['name']
             if not service['queries']:
                 continue
+
             for start_time, end_time in intervalos:
                 from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
                 to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
                 for query in service['queries']:
-                    futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], 'Degradação'))
+                    futures.append((executor_query.submit(run_query, query, from_time, to_time),
+                                    system, service_name, 'Degradação'))
 
         # Indisponibilidade e Errors (Datadog)
         for service in queries_ind:
+            system = service.get('system', 'Desconhecido')
+            service_name = service['name']
             if not service['queries']:
                 continue
-            for start_time, end_time in intervalos:
-                if any("@type:error" in query for query in service['queries']):
-                    from_time = to_iso8601(start_time.year, start_time.month, start_time.day, 7)
-                    to_time = to_iso8601(end_time.year, end_time.month, end_time.day, 19)
-                else:
-                    from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
-                    to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
 
+            for start_time, end_time in intervalos:
                 for query in service['queries']:
-                    query_type = "Errors" if "@type:error" in query else "Indisponibilidade"
                     if "@type:error" in query:
-                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time), service['name'], query_type))
+                        # RUM (iso8601)
+                        from_time = to_iso8601(start_time.year, start_time.month, start_time.day, 7)
+                        to_time = to_iso8601(end_time.year, end_time.month, end_time.day, 19)
+                        query_type = "Errors"
+                        futures.append((executor_rum.submit(run_rum_query, query, from_time, to_time),
+                                        system, service_name, query_type))
                     else:
-                        futures.append((executor_query.submit(run_query, query, from_time, to_time), service['name'], query_type))
+                        from_time = to_timestamp(start_time.year, start_time.month, start_time.day, 7)
+                        to_time = to_timestamp(end_time.year, end_time.month, end_time.day, 19)
+                        query_type = "Indisponibilidade"
+                        futures.append((executor_query.submit(run_query, query, from_time, to_time),
+                                        system, service_name, query_type))
 
         # Processar resultados (Datadog)
-        for future, service_name, query_type in futures:
+        for future, system, service_name, query_type in futures:
             resultado = future.result()
             if resultado:
-                if query_type in ["Views", "Errors"]: 
+                if query_type in ["Views", "Errors"]:
+                    # Para RUM, normalmente conta de eventos
                     if isinstance(resultado, dict) and 'data' in resultado:
                         pontos = len(resultado['data'])
-                        print(f"Eventos retornados para {service_name} ({query_type}): {pontos}")
-                    elif isinstance(resultado, int): 
+                        print(f"Eventos retornados para {system} -> {service_name} ({query_type}): {pontos}")
+                    elif isinstance(resultado, int):
                         pontos = resultado
-                        print(f"Eventos retornados para {service_name} ({query_type}): {pontos}")
+                        print(f"Eventos retornados para {system} -> {service_name} ({query_type}): {pontos}")
                     else:
-                        print(f"Nenhum dado encontrado ou erro ao processar a query para {service_name} ({query_type}).")
+                        print(f"Nenhum dado encontrado ou erro ao processar a query para {system} -> {service_name} ({query_type}).")
                         pontos = 0
                 else:
-                    pontos = sum_points(resultado['series'])
-                    print(f"Dados somados para {service_name} ({query_type}): {pontos}")
-                resultados_servicos[service_name][query_type] += pontos
+                    # Para as métricas do Datadog (trace, etc.)
+                    pontos = sum_points(resultado.get('series', []))
+                    print(f"Dados somados para {system} -> {service_name} ({query_type}): {pontos}")
+
+                resultados_servicos[system][service_name][query_type] += pontos
             else:
-                print(f"Sem dados retornados para {service_name} ({query_type})")
+                print(f"Sem dados retornados para {system} -> {service_name} ({query_type})")
 
     return resultados_servicos
 
@@ -122,28 +176,47 @@ def coletar_dados_zabbix(intervalos):
 
     return resultados_zabbix
 
-# Entrada de datas
-data_inicio = datetime.strptime(input("Digite a data de início (YYYY-MM-DD): "), "%Y-%m-%d")
-data_fim = datetime.strptime(input("Digite a data de fim (YYYY-MM-DD): "), "%Y-%m-%d")
+if __name__ == "__main__":
+    # Leitura de datas
+    data_inicio = datetime.strptime(input("Digite a data de início (YYYY-MM-DD): "), "%Y-%m-%d")
+    data_fim = datetime.strptime(input("Digite a data de fim (YYYY-MM-DD): "), "%Y-%m-%d")
 
-# Coletar dados do Datadog
-queries_req = ler_queries('queries/queries_req.json')
-queries_deg = ler_queries('queries/queries_deg.json')
-queries_ind = ler_queries('queries/queries_ind.json')
-intervalos = gerar_intervalo_dias(data_inicio, data_fim)
+    # Leitura dos JSON com queries
+    queries_req = ler_queries('queries/queries_req.json')  # Requisições + Views
+    queries_deg = ler_queries('queries/queries_deg.json')  # Degradação
+    queries_ind = ler_queries('queries/queries_ind.json')  # Indisponibilidade + Errors
 
-resultados_datadog = coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
+    # Intervalos diários
+    intervalos = gerar_intervalo_dias(data_inicio, data_fim)
 
-# Coletar dados do Zabbix
-resultados_zabbix = coletar_dados_zabbix(intervalos)
+    # Coleta dados do Datadog
+    resultados_datadog = coletar_dados_multithread(queries_req, queries_deg, queries_ind, intervalos)
 
-# Combinar os resultados e salvar no arquivo JSON
-summary_service_data = {
-    "Datadog": resultados_datadog,
-    "Zabbix": resultados_zabbix
-}
+    # === Cálculo da Disponibilidade por serviço ===
+    # Para cada 'system' e cada 'service_name', adicionamos a chave 'Availability'
+    for system, servicos in resultados_datadog.items():
+        for service_name, dados in servicos.items():
+            req_views = dados["Requisições"] + dados["Views"]
+            if req_views > 0:
+                indisponibilidade_errors = dados["Indisponibilidade"] + dados["Errors"]
+                availability = 100 - ((indisponibilidade_errors / req_views) * 100)
+            else:
+                # Se não houve requisições + views, podemos definir 100 ou 0, dependendo do critério de negócio
+                availability = 100
+            # Armazena no próprio dicionário
+            dados["Availability"] = f"{availability}%"
 
-with open('summary_service_data.json', 'w', encoding='utf-8') as f:
-    json.dump(summary_service_data, f, indent=4, ensure_ascii=False)
+    # Coleta dados do Zabbix
+    resultados_zabbix = coletar_dados_zabbix(intervalos)
 
-print("Dados coletados e armazenados com sucesso no arquivo 'summary_service_data.json'.")
+    # Monta o JSON final
+    summary_service_data = {
+        "Datadog": resultados_datadog,
+        "Zabbix": resultados_zabbix
+    }
+
+    # Salva em arquivo
+    with open('summary_service_data.json', 'w', encoding='utf-8') as f:
+        json.dump(summary_service_data, f, indent=4, ensure_ascii=False)
+
+    print("Dados coletados e armazenados com sucesso no arquivo 'summary_service_data.json'.")
