@@ -223,22 +223,22 @@ if __name__ == "__main__":
     resultados_zabbix = coletar_dados_zabbix(intervalos)
 
     # ============== 7) Montar e salvar o JSON principal ==============
-    summary_service_data = {
+    total_data = {
         "Datadog": resultados_datadog,
         "Zabbix": resultados_zabbix
     }
 
-    with open('summary_service_data.json', 'w', encoding='utf-8') as f:
-        json.dump(summary_service_data, f, indent=4, ensure_ascii=False)
+    with open('total_data.json', 'w', encoding='utf-8') as f:
+        json.dump(total_data, f, indent=4, ensure_ascii=False)
 
-    print("Dados coletados e armazenados em 'summary_service_data.json'.")
+    print("Dados coletados e armazenados em 'total_data.json'.")
 
     # =====================================================================
     #         8) Geração do segundo JSON: system_data_sla.json
     # =====================================================================
 
     # 8.1) Monta dicionário agrupado por sistema
-    system_data_sla = {}
+    summary_service_data = {}
 
     # Percorremos cada 'system' em resultados_datadog
     for system_name, servicos in resultados_datadog.items():
@@ -256,7 +256,7 @@ if __name__ == "__main__":
             media_sla = 100.0
 
         # Armazena no dicionário final, convertendo para string com "%"
-        system_data_sla[system_name] = {
+        summary_service_data[system_name] = {
             "SLA_Total": f"{media_sla:.2f}%",
             "Quantidade de serviços": count_servicos
         }
@@ -304,10 +304,11 @@ if __name__ == "__main__":
     }
 
     # 8.3) Adiciona a chave "Zabbix" ao dicionário final
-    system_data_sla["Zabbix"] = zabbix_group_availability
+    summary_service_data["Zabbix"] = zabbix_group_availability
 
     # 8.4) Salva em outro arquivo JSON
-    with open('system_data_sla.json', 'w', encoding='utf-8') as f2:
-        json.dump(system_data_sla, f2, indent=4, ensure_ascii=False)
+    path_rede = '\\unimed02\GovernancaTI$\summary_service_data.json'
+    with open(path_rede, 'w', encoding='utf-8') as f2:
+        json.dump(summary_service_data, f2, indent=4, ensure_ascii=False)
 
-    print("Arquivo 'system_data_sla.json' gerado com sucesso!")
+    print("Arquivo 'summary_service_data.json' gerado com sucesso!")
