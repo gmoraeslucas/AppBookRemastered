@@ -307,7 +307,7 @@ if __name__ == "__main__":
     summary_service_data["Zabbix"] = zabbix_group_availability
 
     # 8.4) Salva em outro arquivo JSON
-    path_rede = '\\unimed02\GovernancaTI$\summary_service_data.json'
+    path_rede = 'Z:\summary_service_data.json'
     with open(path_rede, 'w', encoding='utf-8') as f2:
         json.dump(summary_service_data, f2, indent=4, ensure_ascii=False)
 

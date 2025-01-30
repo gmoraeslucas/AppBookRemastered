@@ -1,7 +1,7 @@
 /.env
 /__pycache__
 /desktop.ini
-/resultados_servicos.json
 /queries/desktop.ini
 __pycache__/utils.cpython-312.pyc
 /summary_service_data.json
+/total_data.json
